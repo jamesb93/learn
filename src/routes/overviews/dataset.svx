@@ -1,0 +1,50 @@
+---
+title: Understanding the FluidDataSet
+blurb: |
+    The FluidDataSet is the heart of the second FluCoMa toolbox. This overview dives into how it works and how you can feel more fluent when using it.
+tags: 
+    - data
+    - beginner
+---
+
+<script>
+    import CodeBlock from '$lib/components/CodeBlock.svelte';
+    import Image from '$lib/components/Image.svelte';
+    import { Tabs, TabList, TabPanel, Tab } from '$lib/components/tabs/tabs';
+</script>
+
+## Introduction
+
+
+<Tabs>
+<TabList>
+    <Tab>Max</Tab>
+    <Tab>PureData</Tab>
+    <Tab>SuperCollider</Tab>
+</TabList>
+<TabPanel> <!-- Max -->
+<a href='/examples/batch/batch-slicing.maxpat' download>Download Patch</a>
+</TabPanel>
+
+<TabPanel> <!-- Pure Data -->
+<a href='/examples/batch/batch-slicing.pd' download>Download Patch</a>
+</TabPanel> 
+
+<TabPanel> <!-- SC -->
+<a href='/examples/batch/batch-slicing.scd' download>Download Script</a>
+</TabPanel> 
+</Tabs>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
