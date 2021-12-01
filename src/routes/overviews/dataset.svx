@@ -15,75 +15,21 @@ tags:
 
 ## Introduction
 
-The [DataSet](/reference/dataset) is a core object in the second FluCoMa toolbox as it deals mostly with machine learning algorithms. Whenever there is a need to store data as an input or an output to a process, [DataSet](/reference/dataset) is the tool that you'll want to reach for. Fundamentally, [DataSet](/reference/dataset) is an _associative data structure_ and while this bundle of words might seem confusing at first, it is possible that you're already familiar with the idea by using other objects such as `coll`, `dict`, `text` or `Dictionary` which are all associative. 
+The [DataSet](/reference/dataset) is an important object in the second FluCoMa toolbox. Whenever there is a need to create a collection of data (such as for input to a machine learning process), or to make a provision for some output, [DataSet](/reference/dataset) is the tool that you'll want to reach for. 
 
-Associatve in this context means that data is not stored in a structure that requires a specific order like an `array` or `list`. Rather, data is stored in an unordered collection that can be referenced and queried by looking up an _identifier_ that is associated to some data. Together, these two bits of information are called a _point_. Identifiers can be numbers, strings or symbols, so it's relatively flexible in what it might denote. This facilitates relatively simple retrieval, updating and deletion of information in a [DataSet](/reference/dataset) by structuring our interaction with it around _named points_. Furthermore, when data is transformed and passed between many instances of FluCoMa objects, the identifiers are preserved meaning one can backtrack results from the end to the beginning of a processing pipeline.
+The [DataSet](/reference/dataset) starts out empty and we add any number of _points_ to it. A point is made up of two bits of information: an _identifier_ and some _data_. The _data_ is any number of numerical bits of information stored in a buffer. The _identifier_ is a string or symbol which is _associated_ to the _data_. If you have used the `coll`, `dict`, `text` or `Dictionary` objects in your environment of choice you will already be familiar with this idea of storing data associatively. If you're not, you can think of it like a filing system. The identifier gives us a human-readable bit of information which we can use to look up the data that it is attached to.
 
-## Some Examples
+## Some Caveats to Remember
 
-### Adding Points
+1. For each point, the data needs to be uniformly sized. In other words, if the first point you add to a [DataSet](/reference/dataset) dictates how many numbers each point's data can should have. If you added a point that had 10 numbers in the data, and then tried to add a new point with 3 numbers in the data it wouldn't work.
 
-First let's start with a few ways to add points to a [DataSet](/reference/dataset).
+2. Identifiers are unique. You cannot have the same identifier twice in a single [DataSet](/reference/dataset).
 
-<Tabs>
-<TabList>
-    <Tab>Max</Tab>
-    <Tab>PureData</Tab>
-    <Tab>SuperCollider</Tab>
-</TabList>
-<TabPanel> <!-- Max -->
-<a href='/examples/dataset/simple-storage.maxpat' download>Download Patch</a>
-</TabPanel>
+3. When data is transformed and passed between many instances of FluCoMa objects, the identifiers are preserved meaning one can backtrack results from the end to the beginning of a processing pipeline.
 
-<TabPanel> <!-- Pure Data -->
-<a href='/examples/batch/simple-storage.pd' download>Download Patch</a>
-</TabPanel> 
+## Usage
 
-<TabPanel> <!-- SC -->
-<CodeBlock>
-
-```js
-// Add a single point
-(
-s.reboot; // reboot the server
-s.waitForBoot({ // wait for the server to finish booting
-    var data = Buffer.loadCollection(s, [1, 2, 3]); // create a new buffer containing the values 1, 2, 3
-    var ds = FluidDataSet.new(s); // create a new dataset stored in the variable "ds"
-    s.sync; // synchronise the server
-    
-    ds.addPoint("id", data); // Add the contents of the buffer "data" to "ds" by associating it to the identifier called "id"
-    ds.print; // print the contents of "ds"
-});
-)
-
-// Add multiple points iteratively
-(
-s.reboot; // reboot the server
-s.waitForBoot({ // wait for the server to finish booting
-    var ds = FluidDataSet.new(s); // create a new dataset stored in the variable "ds"
-    s.sync;
-    
-    50.do({
-        arg i;
-        var data = Buffer.loadCollection(s, Array.rand(3, 1, 10)); // create a new buffer containing 3 random values
-        s.sync; // synchronise the server
-    
-        ds.addPoint(i, data); // Add the contents of the buffer "data" to "ds" by associating it to the identifier called "id"
-    });
-    ds.print; // print the contents of "ds"
-});
-)
-```
-
-</CodeBlock>
-</TabPanel> 
-</Tabs>
-
-### Updating Points
-
-### Deleteing Points
-
-### Dictionary Interface
+The help files in each environment are the best place to see the most common usage of the [DataSet](/reference/dataset) including adding, updating and deleting points.
 
 
 
