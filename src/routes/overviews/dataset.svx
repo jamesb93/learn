@@ -31,6 +31,70 @@ The [DataSet](/reference/dataset) starts out empty and we add any number of _poi
 
 The help files in each environment are the best place to see the most common usage of the [DataSet](/reference/dataset) including adding, updating and deleting points.
 
+### Adding Points
+
+First let's start with a few ways to add points to a [DataSet](/reference/dataset).
+
+<Tabs>
+<TabList>
+    <Tab>Max</Tab>
+    <Tab>PureData</Tab>
+    <Tab>SuperCollider</Tab>
+</TabList>
+<TabPanel> <!-- Max -->
+<a href='/examples/dataset/simple-storage.maxpat' download>Download Patch</a>
+</TabPanel>
+
+<TabPanel> <!-- Pure Data -->
+<a href='/examples/batch/simple-storage.pd' download>Download Patch</a>
+</TabPanel> 
+
+<TabPanel> <!-- SC -->
+<CodeBlock>
+
+```js
+// Add a single point
+(
+s.reboot; // reboot the server
+s.waitForBoot({ // wait for the server to finish booting
+    var data = Buffer.loadCollection(s, [1, 2, 3]); // create a new buffer containing the values 1, 2, 3
+    var ds = FluidDataSet.new(s); // create a new dataset stored in the variable "ds"
+    s.sync; // synchronise the server
+    
+    ds.addPoint("id", data); // Add the contents of the buffer "data" to "ds" by associating it to the identifier called "id"
+    ds.print; // print the contents of "ds"
+});
+)
+
+// Add multiple points iteratively
+(
+s.reboot; // reboot the server
+s.waitForBoot({ // wait for the server to finish booting
+    var ds = FluidDataSet.new(s); // create a new dataset stored in the variable "ds"
+    s.sync;
+    
+    50.do({
+        arg i;
+        var data = Buffer.loadCollection(s, Array.rand(3, 1, 10)); // create a new buffer containing 3 random values
+        s.sync; // synchronise the server
+    
+        ds.addPoint(i, data); // Add the contents of the buffer "data" to "ds" by associating it to the identifier called "id"
+    });
+    ds.print; // print the contents of "ds"
+});
+)
+```
+
+</CodeBlock>
+</TabPanel> 
+</Tabs>
+
+### Updating Points
+
+### Deleteing Points
+
+### Dictionary Interface
+
 
 
 
