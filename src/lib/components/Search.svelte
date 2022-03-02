@@ -104,7 +104,7 @@
 <style lang="postcss">
 	:root {
 		--radius: 0px;
-		--w: min(90%, 400px);
+		--w: min(90%, 300px);
 		--border: 2px solid var(--dark-blue);
 		--search-pad: 10px;
 	}
