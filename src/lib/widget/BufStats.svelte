@@ -1,15 +1,13 @@
 <script>
-	import { onMount } from 'svelte';
-	import { CanvasSpace } from 'pts';
-    import { indexOfSmallest } from '$lib/util'
+    import { indexOfSmallest, pairwise } from '$lib/util'
 	import * as math from 'mathjs'
 	import * as d3 from 'd3';
 
 	let rect;
 	let nearestBar = 0;
-    let NUMSLIDERS = 200;
+    let NUMSLIDERS = 100;
 	let heights = [...Array(NUMSLIDERS).fill(200)];
-	let binner = d3.bin().thresholds(19).domain([0, 200])
+	let binner = d3.bin().thresholds(10).domain([0, 200])
 	$: distribution = binner(heights)
 	let width = 100;
 	let stats = {
@@ -42,6 +40,12 @@
 	}
 
 	$: stats = getStats(heights.map(x => 1 - (x / 200.0))) // normalize
+	let derivatives = new Array(heights.length).fill(100);
+	$: {
+		pairwise(heights, (a, b, i) => {
+			derivatives[i] = b - a;
+		})
+	}
 
 	let mousedownState = false;
 	function mousedown() { mousedownState = true }
@@ -60,6 +64,7 @@
 <!-- {#each Object.entries(stats) as [k, v] } -->
 	<!-- {k}{v} -->
 <!-- {/each} -->
+{ stats.skewness }
 <svelte:window on:mouseup={mouseup} />
 <div class="container" bind:offsetWidth={width}>
 	<svg class='sketch' on:mousedown={mousedown} on:mousemove={mousemove}>
@@ -69,10 +74,18 @@
 	</svg>
 </div>
 
-<br>
+<div class="container" bind:offsetWidth={width}>
+	<svg class='sketch' on:mousedown={mousedown} on:mousemove={mousemove}>
+		{#each derivatives as _, i}
+		<rect x={(width / NUMSLIDERS * i)} width={2} height={derivatives[i]} y={200 - derivatives[i]} class:nearest={nearestBar === i}/>
+		{/each}
+	</svg>
+</div>
 
+<br>
+{ distribution.length }
 <div class="container">
-	<svg class='sketch' on:mousedown={mousedown} on:mouseup={mouseup} on:mousemove={mousemove} on:mouseleave={mouseup}>
+	<svg class='sketch'>
 		{#each distribution as h, i}
 		<rect 
 		width={(width / distribution.length)* 0.5} 
@@ -83,9 +96,8 @@
 	</svg>
 </div>
 
-<!-- <div class="container">
-	<canvas id="sketch" bind:this={canvas} />
-</div> -->
+<button on:click={() => heights = heights.map((x, i) => i)}>ramp</button>
+<button on:click={() => heights = heights.map((x, i) => 100)}>flat</button>
 
 <style>
 	.container {
@@ -96,10 +108,8 @@
 	}
 	.sketch {
 		width: 100%;
-		display: inline-block;
         height: 200px
 	}
-
 	.nearest {
 		fill: red
 	}
