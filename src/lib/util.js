@@ -44,9 +44,18 @@ export const max_scale = (x, imin, imax, omin, omax, exp) => {
     return ((x-imin)/(imax-imin) == 0) ? omin : (((x-imin)/(imax-imin)) > 0) ? (omin + (omax-omin) * Math.pow(((x-imin)/(imax-imin)), exp)) : (omin + (omax-omin) * -Math.pow(((-x+imin)/(imax-imin)), exp))
 }
 
-
 export const pairwise = (arr, func) => {
     for(var i=0; i < arr.length - 1; i++){
         func(arr[i], arr[i + 1], i)
     }
+}
+
+export const indexOfSmallest = (a) => {
+    var lowest = 0;
+    for (var i = 1; i < a.length; i++) {
+        if (a[i] < a[lowest]) {
+            lowest = i;
+        }
+    }
+    return lowest;
 }
