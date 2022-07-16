@@ -4,12 +4,15 @@
 	"scripts": {
 		"dev": "node scripts/preprocess.js && vite dev",
 		"build": "node scripts/preprocess.js && vite build",
+		"preview": "vite preview",
 		"check": "svelte-check --tsconfig ./tsconfig.json",
 		"check:watch": "svelte-check --tsconfig ./tsconfig.json --watch",
 		"lint": "prettier --check --plugin-search-dir=. . && eslint --ignore-path=.prettierignore .",
-		"format": "prettier --write --plugin-search-dir=. ."
+		"format": "prettier --write --plugin-search-dir=. .",
+		"test": "playwright test"
 	},
 	"devDependencies": {
+		"@playwright/test": "^1.22.2",
 		"@sveltejs/adapter-static": "next",
 		"@sveltejs/kit": "^1.0.0-next.377",
 		"@typescript-eslint/eslint-plugin": "^4.33.0",
