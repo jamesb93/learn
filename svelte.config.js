@@ -4,7 +4,7 @@ import slug from 'rehype-slug';
 import headings from 'rehype-autolink-headings';
 import { s } from 'hastscript';
 import { mdsvex } from 'mdsvex';
-import * as jargon from 'rehype-jargon'
+import jargon from 'rehype-jargon/dist/index.mjs';
 import { definitions } from './jargon.js';
 
 
