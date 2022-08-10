@@ -1,6 +1,11 @@
 <script>
 	export let items = [];
 	export let activeTabValue = 1;
+
+	items = items.map((x, i) => {
+		x.value = i+1;
+		return x
+	})
 	
 	const handleClick = tabValue => () => (activeTabValue = tabValue);
 </script>
