@@ -21,19 +21,20 @@
 {/each}
 <style>
 	.box {
-		margin-bottom: 10px;
-		padding: 40px;
-		border: 1px solid #dee2e6;
+		margin-bottom: 1em;
+		padding: 1.5em;
+		border: 1px solid var(--light-blue);
 		border-radius: 0 0 .5rem .5rem;
 		border-top: 0;
 	}
 	ul {
 		display: flex;
 		flex-wrap: wrap;
+		gap: 0.25em;
 		padding-left: 0;
 		margin-bottom: 0;
 		list-style: none;
-		border-bottom: 1px solid #dee2e6;
+		border-bottom: 1px solid var(--light-blue);
 	}
 	li {
 		margin-bottom: -1px;
@@ -49,12 +50,16 @@
 	}
 	
 	span:hover {
-		border-color: #e9ecef #e9ecef #dee2e6;
+		border-color: var(--light-blue);
 	}
 	
 	li.active > span {
-		color: #495057;
+		color: black;
 		background-color: #fff;
-		border-color: #dee2e6 #dee2e6 #fff;
+		border-color: var(--light-blue);
+		border-bottom-color: white;
+	}
+	:not(li.active) > span {
+		color: #495057;
 	}
 </style>
