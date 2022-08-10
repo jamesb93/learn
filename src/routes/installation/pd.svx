@@ -72,6 +72,4 @@ xattr -d -r com.apple.quarantine <path_to_package>
 ```
 
 </CodeBlock>
-
 </IndentNote>
-

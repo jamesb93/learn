@@ -10,9 +10,23 @@ flair: article
 
 <script>
     import Image from '$lib/components/Image.svelte';
-    import { Tabs, TabList, TabPanel, Tab } from '$lib/components/tabs/tabs';
     import CodeBlock from '$lib/components/CodeBlock.svelte';
     import IndentNote from '$lib/components/IndentNote.svelte';
+    import Tabs from '$lib/components/Tabs.svelte';
+    import { Mac, Win } from '$lib/tabs/installation/installation';
+
+    const step2 = [
+        {
+            label: "MacOS",
+            value: 1,
+            component: Mac
+        },
+        {
+            label: "Windows",
+            value: 2,
+            component: Win
+        }
+    ]
 </script>
 
 ## Step 1: Download the Max Package
@@ -29,26 +43,7 @@ src="/installation/max-step-1.png"
 
 To install a Max package you need to place it into the "Packages" folder. Select your operating system on the tabs below.
 
-<Tabs>
-<TabList>
-    <Tab>MacOS</Tab>
-    <Tab>Windows</Tab>
-</TabList>
-<TabPanel>
-
-On macOS Packages is located at `/Users/username/Documents/Max 8/Packages`. Where `username` is the username of your account.
-
-<Image
-src="/installation/max-step-2-mac.png"
-/>
-
-</TabPanel>
-<TabPanel>
-
-On Windows, Packages is located at `C:\Users\username\Documents\Max 8\Packages`. Where `username` is the username of your account.
-
-</TabPanel>
-</Tabs>
+<Tabs items={step2} />
 
 ## Step 3: Run Max and Test
 

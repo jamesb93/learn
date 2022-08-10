@@ -1,1 +1,1 @@
-<a href='/examples/batch/batch-decomposition.maxpat' download>Download Max Patch</a>
+<a href="/examples/batch/batch-decomposition.maxpat" download>Download Max Patch</a>

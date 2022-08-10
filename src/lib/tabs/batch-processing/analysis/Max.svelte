@@ -1,1 +1,1 @@
-<a href='/examples/batch/batch-slicing.maxpat' download>Download Max Patch</a>
+<a href="/examples/batch/batch-slicing.maxpat" download>Download Max Patch</a>

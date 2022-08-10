@@ -12,10 +12,62 @@ featuredimage: /examples/batch/add.png
 ---
 
 <script>
-    import CodeBlock from '$lib/components/CodeBlock.svelte';
     import Image from '$lib/components/Image.svelte';
+    import CodeBlock from '$lib/components/CodeBlock.svelte';
     import IndentNote from '$lib/components/IndentNote.svelte';
-    import { Tabs, TabList, TabPanel, Tab } from '$lib/components/tabs/tabs';
+    import Tabs from '$lib/components/Tabs.svelte';
+    import { 
+            AnalysisMax, AnalysisPD, AnalysisSC,
+            DecompMax, DecompPD, DecompSC, DecompCLI,
+            NBPMax, NBPPD, NBPSC
+    } from '$lib/tabs/batch-processing/batch';
+
+    const analysisTab = [
+        {
+            label: "Max",
+            component: AnalysisMax
+        },
+        {
+            label: "PureData",
+            component: AnalysisPD
+        },
+        {
+            label: "SuperCollider",
+            component: AnalysisSC
+        }
+    ]
+    const decompositionTab = [
+        {
+            label: "Max",
+            component: DecompMax
+        },
+        {
+            label: "PureData",
+            component: DecompPD
+        },
+        {
+            label: "SuperCollider",
+            component: DecompSC
+        },
+        {
+            label: "Command-Line",
+            component: DecompCLI
+        }
+    ]
+    const nonblockingTab = [
+        {
+            label: "Max",
+            component: NBPMax
+        },
+        {
+            label: "PureData",
+            component: NBPPD
+        },
+        {
+            label: "SuperCollider",
+            component: NBPSC
+        }
+    ]
 </script>
 
 <IndentNote type='warn'>
@@ -28,32 +80,11 @@ If you want to go straight to the code examples, they can be found under [Batch 
 When working with machine learning and machine listening, we often need to process and work on collections of sounds, slices or analyses together or as _batches_. "Batch processing" is actually quite familiar to musicians although it is often not referred to by the same name. An example would be if you have ever normalised a bundle of audio files, or if you have ever rendered a multi-track session in the DAW. In any of these cases, the computer works on a collection of things together. When we learn how to manage and program batch processes, it can be a powerful tool for manipulating large corpora and for working with collections of musical resources.
 
 ## Batch Processing Code Examples
-
 This section will demonstrate with code examples a number of ways in which batch processing can be implemented in Max, SuperCollider and PureData with the FluCoMa toolkit and show how our interfaces can interlock with the existing ones in your creative coding environment (CCE) of choice. The explanation of particular objects and processes will be _in_ the patches and scripts themselves.
 
 ### Analysis of Segments
 
-<Tabs>
-<TabList>
-    <Tab>Max</Tab>
-    <Tab>PureData</Tab>
-    <Tab>SuperCollider</Tab>
-</TabList>
-<TabPanel> <!-- Max -->
-<a href='/examples/batch/batch-slicing.maxpat' download>Download Max Patch</a>
-</TabPanel>
-
-<TabPanel> <!-- Pure Data -->
-<a href='/examples/batch/batch-slicing.pd' download>Download PureData Patch</a>
-</TabPanel> 
-
-<TabPanel> <!-- SC -->
-<a href='/examples/batch/batch-slicing.scd' download>Download Script</a>
-
-There is also [this](https://discourse.flucoma.org/t/supernova-supercollider-unable-to-find-cmd-plugin-error/1159/6?u=jamesbradbury) valuable piece of information on the FluCoMa discourse highlighting how the value of spawning new threads is not always a panacea.
-
-</TabPanel> 
-</Tabs>
+<Tabs items={analysisTab} />
 
 In this example a single audio file is sliced into a collection of segments. Each segment will be analysed with an audio descriptor and the result for that segment will be stored in a [DataSet](/reference/dataset).The example illustrates how one can iterate through several portions of the source buffer and use the segmentation result to control a process that only analyses specific portions of time in the source file.
 
@@ -66,51 +97,7 @@ The step-by-step workflow is as follows:
 
 ### Decomposing Multiple Files
 
-<Tabs>
-<TabList>
-    <Tab>Max</Tab>
-    <Tab>PureData</Tab>
-    <Tab>SuperCollider</Tab>
-    <Tab>Command Line</Tab>
-</TabList>
-<TabPanel> <!-- Max -->
-<a href='/examples/batch/batch-decomposition.maxpat' download>Download Max Patch</a>
-</TabPanel>
-
-<TabPanel> <!-- Pure Data -->
-<a href='/examples/batch/batch-decomposition.pd' download>Download PureData Patch</a>
-<IndentNote type='danger'>
-<p>This requires PureData version 0.52-1 or greater because it uses the <code>file</code> object.</p>
-</IndentNote>
-</TabPanel> 
-
-<TabPanel> <!-- SC -->
-<a href='/examples/batch/batch-decomposition.scd' download>Download Script</a>
-</TabPanel> 
-
-<TabPanel>
-
-Using `find` and `xargs` limiting to one folder deep. Assumes you are `cd` in a directory of WAV audio files.
-
-<CodeBlock>
-
-```
-find . -name "*.wav" -print0 -maxdepth 2 | xargs -0 -I src fluid-hpss -source src -harmonic src-h.wav -percussive src-p.wav
-```
-
-</CodeBlock>
-
-Using [`fd`](https://github.com/sharkdp/fd) limiting to one folder deep. Assumes you are `cd` in a directory of WAV audio files.
-
-<CodeBlock>
-
-```
-mkdir -p output && fd -e wav -d 1 -x fluid-hpss -source {} -harmonic output/{/.}-h.wav -percussive output/{/.}-p.wav
-```
-
-</CodeBlock>
-</TabPanel>
-</Tabs>
+<Tabs items={decompositionTab} />
 
 In this example a collection of audio files are processed as a batch using the [HPSS](/reference/hpss) algorithm. Each decomposition is output so that the results can be accessed later for audition or storage on disk. The example illustrates how a corpus might be processed as a whole in an automated way.
 
@@ -122,36 +109,7 @@ The step-by-step workflow is as follows:
 
 ### Non-Blocking Processing
 
-<Tabs>
-<TabList>
-    <Tab>Max</Tab>
-    <Tab>PureData</Tab>
-    <Tab>SuperCollider</Tab>
-</TabList>
-<TabPanel> <!-- Max -->
-<div class='links'>
-    <a href='/examples/batch/batch-slicing-threads.maxpat' download>Download Non-blocking Segment Analysis Max Patch</a>
-    <a href='/examples/batch/batch-decomposition-threads.maxpat' download>Download Non-blocking Decomposition Max Patch</a>
-</div>
-</TabPanel>
-
-<TabPanel> <!-- Pure Data -->
-<div class='links'>
-    <a href='/examples/batch/batch-slicing-threads.pd' download>Download Non-blocking Segment Analysis PureData Patch </a>
-    <a href='/examples/batch/batch-decomposition-threads.pd' download>Download Non-blocking Decomposition PureData Patch</a>
-    <IndentNote type='danger'>
-    <p>The Non-blocking decomposition patch requires PureData version 0.52-1 or greater because it uses the <code>file</code> object.</p>
-    </IndentNote>
-</div>
-</TabPanel> 
-
-<TabPanel> <!-- SC -->
-<div class='links'>
-    <a href='/examples/batch/batch-slicing-threads.scd' download>Download Non-blocking Segment Analysis Script</a>
-    <a href='/examples/batch/batch-decomposition-threads.scd' download>Download Non-blocking Decomposition Script</a>
-</div>
-</TabPanel>
-</Tabs>
+<Tabs items={nonblockingTab} />
 
 In the two examples above you may have noticed that whenever these intensive batch processes are started it has the potential to _freeze_ or _hang_ Max and PureData. SuperCollider doesn't suffer the exact same issue because the language will continue to function even while the server is processing. However, it is easier to get into trouble in SuperCollider by launching lots of threads and potentially jamming up the server. To work around these limitations, FluCoMa objects can operate in their own threads that can run in parallel to other processes. This is sometimes referred to as _asynchronous_ or _non-blocking_ programming.
 
@@ -204,25 +162,4 @@ x = [10, 20, 30, 40];
 </CodeBlock>
 
 In other words, each CCE has a set of idioms and _paths of least resistance_ that may or may not lend themselves to batch processing. We hope this article helps you to overcome these when using the FluCoMa toolkit, as well as open up your wider knowledge in your CCE of choice.
-
-<style>
-    .links {
-        display: flex;
-        flex-direction: column;
-        gap: 0.3em;
-    }
-</style>
-
-
-
-
-
-
-
-
-
-
-
-
-
 
