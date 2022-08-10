@@ -28,7 +28,7 @@
 <style>
 	.box {
 		margin-bottom: 1em;
-		padding: 1.5em;
+		padding: 1.25em;
 		border: 1px solid var(--light-blue);
 		border-radius: 0 0 0.5rem 0.5rem;
 		border-top: 0;
